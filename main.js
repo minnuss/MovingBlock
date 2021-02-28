@@ -1,6 +1,7 @@
 let myBlock;
 let movesList;
 let movesArray = [];
+// array for random moves pick with R key
 let randomMovesArray = ['right', 'left', 'up', 'down'];
 
 // check to see if HTML is fully loaded
@@ -19,18 +20,20 @@ document.addEventListener('DOMContentLoaded', () => {
     myBlock.style.position = 'absolute';
     myBlock.style.left = '200px';
     myBlock.style.top = '200px';
+    // adding the mainBlock element to page
     document.body.appendChild(myBlock);
+    // adding the movesList element to page
     movesList = document.createElement('div');
     document.body.appendChild(movesList);
 })
 
+// random hexadecimal color logic
 function randomColor() {
     return '#' + Math.random().toString(16).slice(-6);
 }
 
+// creating move element and adding it on page and into array
 function addMove(val) {
-    // pushing moves to movesArray
-
     // creating span element with moves VALUE
     let span = document.createElement('span');
     span.textContent = '+' + val;
@@ -55,13 +58,14 @@ function addMove(val) {
         // removing the clicked span element from page
         movesList.removeChild(span);
     })
-
+    // appending span with move information to movesList on page
     movesList.appendChild(span);
     // pushing whole span into array instead of just value because it has abbility to be removed after with mover() function
     movesArray.push(span);
-    console.log(movesArray)
+    console.log(movesArray);
 }
 
+// setting moves, random move and random color change
 document.addEventListener('keydown', (e) => {
     console.log(e.key);
     e.preventDefault();
@@ -86,8 +90,10 @@ document.addEventListener('keydown', (e) => {
 // variable for pixel movement of the myBlock element
 let speed = 50;
 
+// moving the block after enter or space is pressed
 function mover() {
     if (movesArray.length > 0) {
+        // getting position information of the block with getBoundingClientRect()
         let cur = myBlock.getBoundingClientRect();
         let el = movesArray.shift();
         console.log(el);
@@ -95,11 +101,11 @@ function mover() {
         let item = el.textContent.replace('+', '');
         // removing the span when enter or space is triggered
         movesList.removeChild(el);
+        // setting inner text of the block with current move from array which was shift()
         myBlock.innerHTML = "Move: " + item;
         console.log(item);
 
         console.log(cur)
-        console.log(myBlock.style.top)
 
         if (item === "up") myBlock.style.top = cur.top - speed + 'px';
         if (item === "down") myBlock.style.top = cur.top + speed + 'px';
